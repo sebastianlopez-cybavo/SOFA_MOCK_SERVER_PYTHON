@@ -8,8 +8,22 @@
 # is strictly forbidden unless prior written permission is obtained
 # from CYBAVO.
 
-from flask import Flask
+import sqlite3
+import os
 
-app = Flask(__name__)
+from mockserver import DB_PATH, RUNTIME_PATH, DB_INIT_PATH
 
-from app import routes
+def init_db():
+    if (not os.path.isdir(RUNTIME_PATH)):
+        os.mkdir(RUNTIME_PATH)
+
+    connection = sqlite3.connect(DB_PATH)
+
+    with open(DB_INIT_PATH) as f:
+        connection.executescript(f.read())
+
+    connection.commit()
+    connection.close()
+
+def setAPICode(param1, param2, param3):
+    pass

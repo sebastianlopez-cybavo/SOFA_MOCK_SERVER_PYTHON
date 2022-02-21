@@ -8,9 +8,22 @@
 # is strictly forbidden unless prior written permission is obtained
 # from CYBAVO.
 
-from app import app
+from flask import Flask
+import json
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Hello world"
+app = Flask(__name__)
+
+f = open('./conf/mockserver.conf.json')
+cfg = json.load(f)
+f.close()
+DB_PATH = cfg['db_path']
+RUNTIME_PATH = cfg['runtime_path']
+DB_INIT_PATH = cfg['db_init_path']
+
+from .routes.wallets import wallets
+
+app.register_blueprint(wallets, url_prefix = '/v1/mock/wallets')
+
+from .models import init_db
+
+init_db()

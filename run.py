@@ -8,4 +8,4 @@
 # is strictly forbidden unless prior written permission is obtained
 # from CYBAVO.
 
-from app import app
+from mockserver import app

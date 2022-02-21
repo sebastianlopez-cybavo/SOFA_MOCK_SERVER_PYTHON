@@ -1,1 +1,2 @@
 FLASK_APP=mockserver.py
+FLASK_ENV=development

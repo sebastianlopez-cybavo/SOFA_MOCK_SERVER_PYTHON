@@ -1,0 +1,8 @@
+{
+    "runtime_path": "./runtime",
+    "db_path": "./runtime/mocksrv.db",
+    "db_init_path": "./scripts/init.sql",
+    "http_addr": "0.0.0.0",
+    "http_port": 8889,
+    "api_server_url": ""
+}
