@@ -12,8 +12,8 @@ import math, json
 from datetime import datetime
 from hashlib import sha256
 from urllib import response
-from randstr import randomString
 from mockserver import API_SERVER_URL
+from mockserver.helper.randstr import randomString
 from ..models import getAPICode
 
 def buildChecksum(params, secret, t, r, postData):

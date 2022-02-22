@@ -9,8 +9,8 @@
 # from CYBAVO.
 
 from flask import Blueprint, request
-from ..models import setAPICode, getAPICode
-from ..helper.apicaller import makeRequest
+from mockserver.models import setAPICode, getAPICode
+from mockserver.helper.apicaller import makeRequest
 from hashlib import sha256
 import json
 

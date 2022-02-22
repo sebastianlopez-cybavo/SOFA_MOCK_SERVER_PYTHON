@@ -9,7 +9,7 @@
 # from CYBAVO.
 
 from flask import Blueprint, request
-from ..models import setAPICode, getAPICode
+from mockserver.models import setAPICode, getAPICode
 from hashlib import sha256
 
 merchant = Blueprint('merchant', __name__)
