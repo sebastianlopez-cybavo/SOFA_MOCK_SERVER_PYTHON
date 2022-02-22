@@ -9,7 +9,7 @@
 # from CYBAVO.
 
 from flask import Blueprint, request
-from ..models import setAPICode
+from ..models import setAPICode, getAPICode
 
 wallets = Blueprint('wallets', __name__)
 
@@ -24,3 +24,8 @@ def apitoken(wallet_id):
         setAPICode(wallet_id, args['api_code'], args['api_secret'])
         print('API Code:', args['api_code'], 'API Secret:', args['api_secret'])
         return { 'result': 1 }
+
+@wallets.route('/callback', methods=['POST'])
+def callback():
+    args = request.get_json()
+    APICode = getAPICode(args['walletID'])

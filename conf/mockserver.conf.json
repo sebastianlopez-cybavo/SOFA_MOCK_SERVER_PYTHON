@@ -4,5 +4,5 @@
     "db_init_path": "./scripts/init.sql",
     "http_addr": "0.0.0.0",
     "http_port": 8889,
-    "api_server_url": ""
+    "api_server_url": "BACKEND_SERVER_URL"
 }

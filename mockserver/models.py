@@ -17,13 +17,31 @@ def init_db():
     if (not os.path.isdir(RUNTIME_PATH)):
         os.mkdir(RUNTIME_PATH)
 
-    connection = sqlite3.connect(DB_PATH)
+    db = sqlite3.connect(DB_PATH)
 
     with open(DB_INIT_PATH) as f:
-        connection.executescript(f.read())
+        db.executescript(f.read())
 
-    connection.commit()
-    connection.close()
+    db.commit()
+    db.close()
 
-def setAPICode(param1, param2, param3):
-    pass
+def getAPICode(walletID):
+    db = sqlite3.connect(DB_PATH)
+    cursor = db.cursor()
+    sql = 'SELECT api_code code, api_secret secret FROM mock_apicode WHERE wallet_id  = ?'
+    cursor.execute(sql, (walletID, ))
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print(row)
+
+    db.close()
+    return {'code': row.code, 'secret': row.secret}
+
+def setAPICode(walletID, code, secret):
+    db = sqlite3.connect(DB_PATH)
+    cursor = db.cursor()
+    sql = 'REPLACE INTO mock_apicode (wallet_id, api_code, api_secret) VALUES(?, ?, ?)'
+    cursor.execute(sql, (walletID, code, secret))
+    db.commit()
+    db.close()
