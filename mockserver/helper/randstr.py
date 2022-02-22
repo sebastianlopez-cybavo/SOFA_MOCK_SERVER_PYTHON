@@ -8,23 +8,14 @@
 # is strictly forbidden unless prior written permission is obtained
 # from CYBAVO.
 
-from flask import Flask
-import json
+from string import ascii_letters
+from random import randint
 
-app = Flask(__name__)
+def randomString(length):
+    r = ''
+    charset = ascii_letters + '0123456789'
 
-f = open('./conf/mockserver.conf.json')
-cfg = json.load(f)
-f.close()
-DB_PATH = cfg['db_path']
-RUNTIME_PATH = cfg['runtime_path']
-DB_INIT_PATH = cfg['db_init_path']
-API_SERVER_URL = cfg['api_server_url']
-
-from .routes.wallets import wallets
-
-app.register_blueprint(wallets, url_prefix = '/v1/mock/wallets')
-
-from .models import init_db
-
-init_db()
+    for i in range(length):
+        r = r + charset[randint(0, len(charset))]
+    
+    return r
