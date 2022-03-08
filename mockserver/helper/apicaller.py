@@ -11,10 +11,12 @@
 import math, json
 from datetime import datetime
 from hashlib import sha256
-from urllib import response
+from requests import Session
+from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
+
 from mockserver import API_SERVER_URL
 from mockserver.helper.randstr import randomString
-from ..models import getAPICode
+from mockserver.models import getAPICode
 
 def buildChecksum(params, secret, t, r, postData):
     params.append('t={}'.format(t))
@@ -27,14 +29,24 @@ def buildChecksum(params, secret, t, r, postData):
 
 def tryParseJSON(s):
     try:
-        o = json.dumps(json.loads(s))
-        if (o and type(o) == 'object'):
+        o = json.loads(s)
+        if (o and type(o) == dict):
             return o
     except:
         return s
 
-def doRequest():
-    pass
+def doRequest(url, options, postData): # TODO
+    print('Request -> ', url, ' Options -> ', options)
+    session = Session()
+    try:
+        response = session.get(url, params=options)
+        data = json.loads(response.text)
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        print(e)
+    if postData:
+        if (options['method'] == 'DELETE'):
+            pass
+        pass
 
 def makeRequest(targetID, method, api, params, postData):
     if (targetID < 0 or method == '' or api == ''):
@@ -67,9 +79,9 @@ def makeRequest(targetID, method, api, params, postData):
     try:
         result = doRequest(url, options, postData)
         resp = tryParseJSON(result)
-        print('Response -> ', json.dumps(json.loads(resp)) if resp else '')
+        print('Response -> ', json.dumps(resp) if resp else '')
         return resp 
-    except BaseException:
-        resp = tryParseJSON(BaseException)
-        print('Response -> ', json.dumps(json.loads(resp)) if resp else '')
+    except ValueError:
+        resp = tryParseJSON(ValueError)
+        print('Response -> ', json.dumps(resp) if resp else '')
         return resp
