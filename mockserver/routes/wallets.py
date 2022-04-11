@@ -36,6 +36,7 @@ def apitoken(wallet_id):
         print('API Code:', args['api_code'], 'API Secret:', args['api_secret'])
         return { 'result': 1 }, 200
 
+# MISSING GET CASE
 @wallets.route('/<wallet_id>/addresses', methods=['GET', 'POST'])
 def addresses(wallet_id):
     args = request.get_json()
@@ -161,7 +162,7 @@ def apiSecret(wallet_id):
 @wallets.route('/<wallet_id>/apisecret/activate', methods=['POST'])
 def apiSecretActivate(wallet_id):
     url = ''
-    if wallet_id == '0':
+    if not wallet_id:
         url = '/v1/sofa/wallets/readonly/apisecret/activate'
     else:
         url = '/v1/sofa/wallets/{}/apisecret/activate'.format(wallet_id)
@@ -177,6 +178,115 @@ def apiSecretActivate(wallet_id):
     
     if apires['statusCode']:
         return json.load(apires['result']), apires['statusCode']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/notifications')
+def notifications(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/notifications'.format(wallet_id)
+
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url,
+            getQueryParams(request.query_string)
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['result']), apires['statusCode']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/notifications/get_by_id', methods=['POST'])
+def get_by_id(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/notifications/get_by_id'.format(wallet_id)
+
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/sender/notifications/order_id/<order_id>')
+def notifications_order_id(wallet_id, order_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    if not order_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/sender/notifications/order_id/{}'.format(
+            wallet_id,
+            order_id
+        )
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url,
+            None,
+            None
+        )
+        
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/transactions')
+def transactions(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/transactions'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url,
+            None,
+            None
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/blocks')
+def blocks(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/blocks'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
     else:
         return json.load(apires), 400
 
