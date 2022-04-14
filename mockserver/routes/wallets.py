@@ -289,7 +289,126 @@ def blocks(wallet_id):
         return json.load(apires['statusCode']), apires['result']
     else:
         return json.load(apires), 400
+    
+@wallets.route('/<wallet_id>/addresses/invalid-deposit')
+def invalid_deposit(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/addresses/invalid-deposit'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
 
+@wallets.route('/<wallet_id>/info')
+def info(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/info'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/addresses/verify', methods=['POST'])
+def verify(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/addresses/verify'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/autofee', methods=['POST'])
+def autofee(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/autofee'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/receiver/balance')
+def balance(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/receiver/balance'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/vault/balance')
+def vaultbalance(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/vault/balance'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+# TODO THIS IS DIFFERENT
 @wallets.route('/callback', methods=['POST'])
 def callback():
     wallet_id = request.args.get('wallet_id')
@@ -300,3 +419,27 @@ def callback():
         checksum = sha256('abcd')
         return checksum, 200
         # TODO callback from wallets.js
+
+@wallets.route('/withdrawal/callback', methods=['POST'])
+def withdrawal_callback():
+    print('withdrawal/callback -> ', request.get_data())
+    return 'OK', 200
+
+@wallets.route('/<wallet_id>/addresses/contract_txid')
+def contract_txid(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/addresses/contract_txid'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
