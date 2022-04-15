@@ -443,3 +443,189 @@ def contract_txid(wallet_id):
         return json.load(apires['statusCode']), apires['result']
     else:
         return json.load(apires), 400
+    
+@wallets.route('/<wallet_id>/sender/transactions/acl', methods=['POST'])
+def sendertransactions(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/sender/transactions/acl'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/sender/notifications/manual', methods=['POST'])
+def sendernotifications(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/sender/notifications/manual'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/refreshsecret', methods=['POST'])
+def refreshsecret(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/refreshsecret'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+# TODO add post and delete
+@wallets.route('/<wallet_id>/sender/whitelist')
+def senderwhitelist(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/sender/whitelist'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url,
+            getQueryParams(request.query_string),
+            None
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/sender/whitelist/config')
+def whitelist_config(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/sender/whitelist/config'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'GET',
+            url,
+            getQueryParams(request.query_string),
+            None
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/sender/whitelist/check', methods=['POST'])
+def whitelist_check(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/sender/whitelist/check'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/addresses/label', methods=['POST'])
+def addresses_label(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/addresses/label'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/<wallet_id>/addresses/get_labels', methods=['POST'])
+def addresses_get_labels(wallet_id):
+    if not wallet_id:
+        errorMessage = json.dumps({'error': 'Invalid parameters'})
+        return errorMessage, 400
+    
+    url = '/v1/sofa/wallets/{}/addresses/get_labels'.format(wallet_id)
+    
+    apires = makeRequest(
+            wallet_id,
+            'POST',
+            url,
+            None,
+            json.dumps(request.get_data())
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
+
+@wallets.route('/readonly/walletlist')
+def readonlywalletlist():
+    url = '/v1/sofa/wallets/readonly/walletlist'
+    
+    apires = makeRequest(
+            0,
+            'GET',
+            url,
+            getQueryParams(request.query_string),
+            None
+        )
+    
+    if apires['statusCode']:
+        return json.load(apires['statusCode']), apires['result']
+    else:
+        return json.load(apires), 400
